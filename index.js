@@ -17,7 +17,7 @@ const objectID = mongodb.ObjectID;
 const dbURL=process.env.DB_URl;
 const DBName=process.env.bdname;
 const port = process.env.PORT || 3000;
-app.post("/register",async(req,res)=>{
+app.post("/register",cors(),async(req,res)=>{
     try{
         let clientInfo = await mongoClient.connect(dbURL);
         let db = clientInfo.db(DBName);
@@ -60,7 +60,7 @@ app.post("/register",async(req,res)=>{
                 });
                 req.body.active_string=str;
 
-                let api="http://localhost:3000/active?active_string"
+                let api="https://shailesh-shorturl.herokuapp.com/active?active_string"
                 await db.collection("users").insertOne(req.body)
                 await transporter.sendMail({
                     from: `Short URL <${process.env.MAIL_USERNAME}>`, 
@@ -188,7 +188,7 @@ app.post("/forget-password",async(req,res)=>{
             });
             let str = `${str1}_._${data._id}`;
                 
-                let api="http://localhost:3000/checkpassword?reset_string"
+                let api="https://shailesh-shorturl.herokuapp.com/checkpassword?reset_string"
                 await transporter.sendMail({
                     from: `Short URL <${process.env.MAIL_USERNAME}>`, // sender address
                     to: `${req.body.email}`, // list of receivers
