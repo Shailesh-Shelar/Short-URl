@@ -59,11 +59,11 @@ app.post("/register",cors(),async(req,res)=>{
                     type: 'url-safe'
                 });
                 req.body.active_string=str;
-
+                console.log(process)
                 let api="https://shailesh-shorturl.herokuapp.com/active?active_string"
                 await db.collection("users").insertOne(req.body)
                 await transporter.sendMail({
-                    from:"shaileshshelar6918@gmail.com", 
+                    from: `Short URL <${process.env.MAIL_USERNAME}>`, 
                     to: `${req.body.email}`, 
                     subject: "Active Your Account", 
                     html: `<b>Click the Link to Activate Your Account.</b><br><p>${api}=${str}</p>`,
